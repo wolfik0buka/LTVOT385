@@ -1,0 +1,24 @@
+/LTX20385.axf
+/LTX20385.build_log.htm
+/LTX20385.hex
+/LTX20385.htm
+/LTX20385.lnp
+/LTX20385.sct
+/LTX20385_Target 1.dep
+/main.crf
+/main.d
+/main.o
+/misc.crf
+/misc.d
+/misc.o
+/startup_stm32f2xx.d
+/startup_stm32f2xx.o
+/stm32f2xx_gpio.crf
+/stm32f2xx_gpio.d
+/stm32f2xx_gpio.o
+/stm32f2xx_rcc.crf
+/stm32f2xx_rcc.d
+/stm32f2xx_rcc.o
+/system_stm32f2xx.crf
+/system_stm32f2xx.d
+/system_stm32f2xx.o
