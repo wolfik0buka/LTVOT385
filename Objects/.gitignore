@@ -22,3 +22,10 @@
 /system_stm32f2xx.crf
 /system_stm32f2xx.d
 /system_stm32f2xx.o
+/hardware.crf
+/hardware.d
+/hardware.o
+/ExtDll.iex
+/stm32f2xx_usart.crf
+/stm32f2xx_usart.d
+/stm32f2xx_usart.o

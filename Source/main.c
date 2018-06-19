@@ -1,31 +1,51 @@
-#include <stm32f2xx.h>
+/**
+  ******************************************************************************
+  * @file    main.c
+  * @author  wolfik
+  * @version V0.0.1
+  * @date    19-06-2018
+  * @brief   Main program body
+  ******************************************************************************
+  */
+
+/* Includes ------------------------------------------------------------------*/
+
 #include "main.h"
 
-void setMCO1 (void)
-{
-	GPIO_InitTypeDef MCO_PIN;
-	
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
-	
-	MCO_PIN.GPIO_Mode		= GPIO_Mode_AF;
-	MCO_PIN.GPIO_OType 	= GPIO_OType_PP;
-	MCO_PIN.GPIO_Pin 		= GPIO_Pin_8;
-	MCO_PIN.GPIO_PuPd 	= GPIO_PuPd_NOPULL;
-	MCO_PIN.GPIO_Speed 	= GPIO_Speed_100MHz;
-	
-	
-	GPIO_Init(GPIOA, &MCO_PIN);
-	GPIO_PinAFConfig(GPIOA, GPIO_PinSource8, GPIO_AF_MCO);
-	
-	RCC_MCO1Config(RCC_MCO1Source_PLLCLK, RCC_MCO1Div_2);
-	
-}
+/* Private typedef -----------------------------------------------------------*/
+/* Private define ------------------------------------------------------------*/
+/* Private macro -------------------------------------------------------------*/
+/* Private variables ---------------------------------------------------------*/
+/* Private function prototypes -----------------------------------------------*/
+/* Functions -----------------------------------------------------------------*/
 
+/**
+  * @brief  Main program.
+  * @param  None
+  * @retval None
+  */
 int main (void)
 {
-	setMCO1();
+	initialization();
 	while(1)
 	{
+		if(USART_GetFlagStatus(USART3, USART_FLAG_RXNE))
+		{
+			uint8_t temp = USART_ReceiveData(USART3);
+			USART_SendData(USART3, temp);
+		}
 		
 	}
 }
+
+/**
+  * @brief  Reports the name of the source file and the source line number
+  *   where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
+
+
+
+/******************* AME 2018*****END OF FILE****/
