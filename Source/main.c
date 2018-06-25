@@ -27,6 +27,7 @@ volatile MessageState incomeMessageState = UNREADY;
   */
 int main (void)
 {
+	uint8_t test[] = "Test interface";
 	initialization();
 	Application app;
 	while(1)
@@ -34,6 +35,7 @@ int main (void)
 		if ( incomeMessageState == READY)
 		{
 			decodeMessage(&app.protocol.incomeMessage);
+		//	sendRS485(test, sizeof(test));
 			incomeMessageState = UNREADY;
 		}
 		

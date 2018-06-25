@@ -16,6 +16,7 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+volatile uint8_t outputBuffer[30];
 
 /* Private function prototypes -----------------------------------------------*/
 /* Functions -----------------------------------------------------------------*/
@@ -24,7 +25,7 @@
 
 /**
   * @brief Main process of income message
-  * @param  app: pointer to the whole struct of apps 
+  * @param  app: pointer to the struct of inputMessage 
   * @retval None
   */
 void decodeMessage(Message *inputMessage)
@@ -38,19 +39,21 @@ void decodeMessage(Message *inputMessage)
 	inputMessage->adress =  inputBuff[0];
 	if (inputMessage->adress == ADDRESS)
 	{
-		inputMessage->functionCode = inputBuff[0];
+		inputMessage->functionCode = inputBuff[1];
 		if (inputMessage->functionCode == WRITEFUNCTION ||
 			inputMessage->functionCode == READFUNCTION)
 		{
 		}
 		else
 		{
-			//sendER
-		}			
-			
-	
-	
-	USART_SendData(USART3, inputMessage->adress);
+			outputBuffer[0] = ADDRESS;
+			outputBuffer[1] = inputMessage->functionCode | 0x80;
+			outputBuffer[2] = 0x03;
+			//CRC 
+			sendRS485 ((uint8_t *) outputBuffer, 3);
+		}
+	}		
+	//USART_SendData(USART3, inputMessage->adress);
 }
 
 /******************* AME 2018*****END OF FILE****/

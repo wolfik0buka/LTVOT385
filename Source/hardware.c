@@ -44,6 +44,7 @@
 void initializeMCO1(void);
 void initializeRS485 (void);
 void initializeProtocolTimer(void);
+void initializeDMA (void);
 /* Private functions ---------------------------------------------------------*/
 
 /**
@@ -197,12 +198,25 @@ void initializeRS485 (void)
 	USART_Init(RESERVCHANEL, &uartConfigStruct);
 	
 	USART_ITConfig(RESERVCHANEL, USART_IT_RXNE, ENABLE);
+	USART_ClearFlag(USART3, USART_FLAG_TC);
+//	USART_ITConfig(RESERVCHANEL, USART_IT_TC, ENABLE);
 	NVIC_EnableIRQ(USART3_IRQn);
 	NVIC_SetPriority(USART3_IRQn, 5);
 		
 	USART_Cmd(RESERVCHANEL, ENABLE);
+	
+	initializeDMA ();
 }
 
+void initializeDMA (void)
+{
+	
+	
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA1, ENABLE);
+	
+	
+	
+}
 
 void initializeProtocolTimer(void)
 {

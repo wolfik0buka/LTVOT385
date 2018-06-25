@@ -20,12 +20,13 @@
 /* Includes ------------------------------------------------------------------*/
 #include <stm32f2xx.h>
 
-#include "main.h"
+#include "config.h"
+//#include "main.h"
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */  
-
+void sendRS485(uint8_t *data, uint8_t len);
 
 
 #endif /* __PTOTOCOLLOWLEVEL_H */

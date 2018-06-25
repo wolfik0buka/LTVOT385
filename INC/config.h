@@ -19,9 +19,9 @@
 
 
 /* Exported types ------------------------------------------------------------*/
-
+typedef enum { UNREADY= 0, READY = !UNREADY} MessageState;
 /* Exported constants --------------------------------------------------------*/
-#define ADDRESS 0x01
+#define ADDRESS 0x31
 
 #define WRITEFUNCTION 0x10
 #define READFUNCTION	0x04

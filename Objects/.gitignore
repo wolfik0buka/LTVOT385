@@ -38,3 +38,6 @@
 /stm32f2xx_tim.crf
 /stm32f2xx_tim.d
 /stm32f2xx_tim.o
+/stm32f2xx_dma.crf
+/stm32f2xx_dma.d
+/stm32f2xx_dma.o

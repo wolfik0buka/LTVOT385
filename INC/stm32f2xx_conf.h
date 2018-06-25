@@ -72,7 +72,7 @@
 //#include "stm32f2xx_dac.h"
 //#include "stm32f2xx_dbgmcu.h"
 //#include "stm32f2xx_dcmi.h"
-//#include "stm32f2xx_dma.h"
+#include "stm32f2xx_dma.h"
 //#include "stm32f2xx_exti.h"
 //#include "stm32f2xx_flash.h"
 //#include "stm32f2xx_fsmc.h"

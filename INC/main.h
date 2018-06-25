@@ -21,12 +21,12 @@
 #include "hardware.h"
 #include "protocol.h"
 /* Exported types ------------------------------------------------------------*/
-typedef enum { UNREADY= 0, READY = !UNREADY} MessageState;
+//typedef enum { UNREADY= 0, READY = !UNREADY} MessageState;
 typedef struct{
 	Protocol protocol;
 }Application;
 /* Exported constants --------------------------------------------------------*/
-#define ADDRESS 0x01
+
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */  
 

@@ -20,6 +20,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include <stm32f2xx.h>
 #include "config.h"
+#include "protocolLowLevel.h"
+
 
 //#include "main.h"
 /* Exported types ------------------------------------------------------------*/
