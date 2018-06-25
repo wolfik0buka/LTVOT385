@@ -1,37 +1,36 @@
 
 /**
   ******************************************************************************
-  * @file    main.h
+  * @file    config.h
   * @author  Wolfik
   * @version V0.0.1
   * @date    19-06-2018
-  * @brief   This file is header for main.h.
+  * @brief   This file contains config Datas of VOTUM
   ******************************************************************************
   */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __MAIN_H
-#define __MAIN_H
+#ifndef __CONFIG_H
+#define __CONFIG_H
 
-/* Global types --------------------------------------------------------------*/
+
 
 /* Includes ------------------------------------------------------------------*/
-#include <stm32f2xx.h>
 
-#include "hardware.h"
-#include "protocol.h"
+
 /* Exported types ------------------------------------------------------------*/
-typedef enum { UNREADY= 0, READY = !UNREADY} MessageState;
-typedef struct{
-	Protocol protocol;
-}Application;
+
 /* Exported constants --------------------------------------------------------*/
 #define ADDRESS 0x01
+
+#define WRITEFUNCTION 0x10
+#define READFUNCTION	0x04
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */  
 
 
-#endif /* __MAIN_H */
+
+#endif /* __CONFIG_H */
 
 
 /******************* AME 2018 *****END OF FILE****/

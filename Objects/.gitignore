@@ -29,3 +29,12 @@
 /stm32f2xx_usart.crf
 /stm32f2xx_usart.d
 /stm32f2xx_usart.o
+/protocol.crf
+/protocol.d
+/protocol.o
+/protocollowlevel.crf
+/protocollowlevel.d
+/protocollowlevel.o
+/stm32f2xx_tim.crf
+/stm32f2xx_tim.d
+/stm32f2xx_tim.o

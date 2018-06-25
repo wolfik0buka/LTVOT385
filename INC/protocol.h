@@ -1,37 +1,49 @@
 
 /**
   ******************************************************************************
-  * @file    main.h
+  * @file    protocol.h
   * @author  Wolfik
   * @version V0.0.1
   * @date    19-06-2018
-  * @brief   This file is header for main.h.
+  * @brief   This file contains different data and datastruct and functions 
+  *			 prototypes for protocolLowLevel.c. It includes harware access 
+  *			 level for LTX20385 on STM32F207IG.
   ******************************************************************************
   */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __MAIN_H
-#define __MAIN_H
+#ifndef __PROTOCOL_H
+#define __PROTOCOL_H
 
-/* Global types --------------------------------------------------------------*/
+
 
 /* Includes ------------------------------------------------------------------*/
 #include <stm32f2xx.h>
+#include "config.h"
 
-#include "hardware.h"
-#include "protocol.h"
+//#include "main.h"
 /* Exported types ------------------------------------------------------------*/
-typedef enum { UNREADY= 0, READY = !UNREADY} MessageState;
-typedef struct{
-	Protocol protocol;
-}Application;
+typedef struct {
+	uint8_t		adress;
+	uint8_t		functionCode;
+	uint16_t	startAdress;
+	uint16_t 	numberOfRegisters;
+	uint8_t 	numberOfData;
+	uint16_t	data[3];
+	uint16_t	summCRC;
+} Message;
+
+typedef struct {
+	Message incomeMessage;
+	Message outputMessage;
+}Protocol;
 /* Exported constants --------------------------------------------------------*/
-#define ADDRESS 0x01
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */  
+void decodeMessage(Message *inputMessage);
 
 
-#endif /* __MAIN_H */
+#endif /* __PROTOCOL_H */
 
 
 /******************* AME 2018 *****END OF FILE****/

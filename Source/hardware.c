@@ -43,6 +43,7 @@
 /* Private function prototypes -----------------------------------------------*/
 void initializeMCO1(void);
 void initializeRS485 (void);
+void initializeProtocolTimer(void);
 /* Private functions ---------------------------------------------------------*/
 
 /**
@@ -67,10 +68,16 @@ void initialization (void)
 	/*2) Initialize DEBUG signal of PLL/2*/
 	#ifdef DEBUG
 	initializeMCO1();
+	
 	#endif
 	
 	/*3) initialize RS485*/
 	initializeRS485();
+	initializeProtocolTimer();
+	
+	/*Enable IRQ*/
+	__enable_irq();
+	
 }
 
 
@@ -145,8 +152,7 @@ void initializeRS485 (void)
 	
 	USART_Init(MAINCHANEL, &uartConfigStruct);
 	USART_Cmd(MAINCHANEL, ENABLE);
-	
-	
+		
 	/* Initialize Reserv channel*/
 	
 	/* Eneable Clocks for USART*/
@@ -157,8 +163,7 @@ void initializeRS485 (void)
 	GPIO_PinAFConfig(RESERVPORT, GPIO_PinSource11, GPIO_AF_USART3);
 	
 	 /* Configure USART Tx as alternate function  */
-	//GPIO_InitTypeDef pinConfigStruct;
-	
+		
 	pinConfigStruct.GPIO_OType = GPIO_OType_PP;
 	pinConfigStruct.GPIO_PuPd = GPIO_PuPd_UP;
 	pinConfigStruct.GPIO_Mode = GPIO_Mode_AF;
@@ -177,7 +182,8 @@ void initializeRS485 (void)
 	pinConfigStruct.GPIO_Speed = GPIO_Speed_2MHz;
 	
 	GPIO_Init(GPIOB, &pinConfigStruct);
-	/*
+	
+	/* Configs do not change
 	USART_InitTypeDef uartConfigStruct;
 	
 	uartConfigStruct.USART_BaudRate = 9600;
@@ -187,9 +193,34 @@ void initializeRS485 (void)
 	uartConfigStruct.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
 	uartConfigStruct.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
 	*/
+	
 	USART_Init(RESERVCHANEL, &uartConfigStruct);
+	
+	USART_ITConfig(RESERVCHANEL, USART_IT_RXNE, ENABLE);
+	NVIC_EnableIRQ(USART3_IRQn);
+	NVIC_SetPriority(USART3_IRQn, 5);
+		
 	USART_Cmd(RESERVCHANEL, ENABLE);
 }
 
 
+void initializeProtocolTimer(void)
+{
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
+	
+	TIM_TimeBaseInitTypeDef timerConfigStruct;
+	
+//	timerConfigStruct.TIM_ClockDivision = 
+	timerConfigStruct.TIM_CounterMode = TIM_CounterMode_Up;
+	timerConfigStruct.TIM_Period = 0;
+	timerConfigStruct.TIM_Prescaler = 3400;
+//	timerConfigStruct.TIM_RepetitionCounter = 
+	TIM_TimeBaseInit(TIM3, &timerConfigStruct);
+	TIM_ClearFlag(TIM3, TIM_FLAG_Update);
+	TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);
+	
+	
+	NVIC_EnableIRQ(TIM3_IRQn);
+	NVIC_SetPriority(TIM3_IRQn, 4);
+}
 /******************* AME 2018*****END OF FILE****/

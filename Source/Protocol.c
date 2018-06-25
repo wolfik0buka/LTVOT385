@@ -1,53 +1,56 @@
 /**
   ******************************************************************************
-  * @file    main.c
+  * @file    Protocol.c
   * @author  wolfik
   * @version V0.0.1
   * @date    19-06-2018
-  * @brief   Main program body
+  * @brief   This file of high level protocol functions
   ******************************************************************************
   */
 
 /* Includes ------------------------------------------------------------------*/
 
-#include "main.h"
+#include "protocol.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-volatile MessageState incomeMessageState = UNREADY;
+
 /* Private function prototypes -----------------------------------------------*/
 /* Functions -----------------------------------------------------------------*/
 
+
+
 /**
-  * @brief  Main program.
-  * @param  None
+  * @brief Main process of income message
+  * @param  app: pointer to the whole struct of apps 
   * @retval None
   */
-int main (void)
+void decodeMessage(Message *inputMessage)
 {
-	initialization();
-	Application app;
-	while(1)
+	extern uint8_t volatile inputBuff[];
+	extern uint16_t volatile byteCounter;
+	/*Check CRC*/
+	// if (crcRight(inputBuff,  byteCounter))
+	//first decode and check Message
+
+	inputMessage->adress =  inputBuff[0];
+	if (inputMessage->adress == ADDRESS)
 	{
-		if ( incomeMessageState == READY)
+		inputMessage->functionCode = inputBuff[0];
+		if (inputMessage->functionCode == WRITEFUNCTION ||
+			inputMessage->functionCode == READFUNCTION)
 		{
-			decodeMessage(&app.protocol.incomeMessage);
-			incomeMessageState = UNREADY;
 		}
-		
-	}
+		else
+		{
+			//sendER
+		}			
+			
+	
+	
+	USART_SendData(USART3, inputMessage->adress);
 }
-
-/**
-  * @brief  Reports the name of the source file and the source line number
-  *   where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
-
-
 
 /******************* AME 2018*****END OF FILE****/
