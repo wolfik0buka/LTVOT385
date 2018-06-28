@@ -1,42 +1,22 @@
-
 /**
   ******************************************************************************
-  * @file    config.h
-  * @author  Wolfik
+  * @file    main.c
+  * @author  wolfik
   * @version V0.0.1
   * @date    19-06-2018
-  * @brief   This file contains config Datas of VOTUM
+  * @brief   Main program body
   ******************************************************************************
   */
 
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __CONFIG2_H
-#define __CONFIG2_H
-
 /* Includes ------------------------------------------------------------------*/
-#include <stm32f2xx.h>
+#include "KeysLowLevel.h"
 
-/* Exported types ------------------------------------------------------------*/
-typedef enum { UNREADY= 0, READY = !UNREADY} MessageState;
-
-/* Exported constants --------------------------------------------------------*/
-/*---------------------------------Keys---------------------------------------*/
-#define MAXKEYS 40
-#define NUMBERKEYS 40
-#define NUBERSAFEKEYS 3
-#define NUMBERMAXOPEN 5
-
-
-#define KEY1CONTROLPORT GPIOE
-#define KEY1CONTROLPIN  GPIO_Pin_0
-#define KEY1FEEDBACKPORT GPIOE
-#define KEY1CONTROLPIN  GPIO_Pin_0
-
-
-
-
-/*
-const GPIO_TypeDef* KEYCONTROLPORT[MAXKEYS] = {GPIOE, GPIOE, GPIOE, GPIOE, GPIOE, //5
+/* Private typedef -----------------------------------------------------------*/
+/* Private define ------------------------------------------------------------*/
+/* Private macro -------------------------------------------------------------*/
+/* Private variables ---------------------------------------------------------*/
+ GPIO_TypeDef* KEYCONTROLPORT[MAXKEYS] = {GPIOE,
+                                    GPIOE, GPIOE, GPIOE, GPIOE, //5
                                     GPIOE, GPIOE, GPIOE, GPIOE, GPIOE, //10
                                     GPIOE, GPIOE, GPIOE, GPIOE, GPIOE, //15 
                                     GPIOE, GPIOF, GPIOF, GPIOF, GPIOF, //20
@@ -45,7 +25,8 @@ const GPIO_TypeDef* KEYCONTROLPORT[MAXKEYS] = {GPIOE, GPIOE, GPIOE, GPIOE, GPIOE
                                     GPIOF, GPIOF, GPIOG, GPIOG, GPIOG, //35
                                     GPIOG, GPIOG, GPIOG, GPIOG, GPIOG};//40
 
-const GPIO_TypeDef* KEYFEEDBACKPORT[MAXKEYS] = {GPIOC, GPIOC, GPIOC, GPIOC, GPIOC,//5
+ GPIO_TypeDef* KEYFEEDBACKPORT[MAXKEYS] = {GPIOC,
+                                     GPIOC, GPIOC, GPIOC, GPIOC,//5
                                      GPIOC, GPIOC, GPIOC, GPIOC, GPIOC,   //10
                                      GPIOC, GPIOC, GPIOC, GPIOC, GPIOC,   //15
                                      GPIOC, GPIOD, GPIOD, GPIOD, GPIOD,   //20
@@ -82,21 +63,71 @@ const uint16_t KEYCONTROLPIN[MAXKEYS] = { GPIO_Pin_0, GPIO_Pin_1, GPIO_Pin_2,//3
                                      GPIO_Pin_14, GPIO_Pin_15, GPIO_Pin_8, //33
                                      GPIO_Pin_9, GPIO_Pin_10, GPIO_Pin_11, //36
                                      GPIO_Pin_12, GPIO_Pin_13, GPIO_Pin_14,//39   
-                                     GPIO_Pin_15};  */
-
-                                     
-                                     
-                                     
-/*-----------------------Protocol---------------------------------------------*/
-#define ADDRESS 0x31
-
-#define WRITEFUNCTION   0x10
-#define READFUNCTION	0x04
-/* Exported macro ------------------------------------------------------------*/
-/* Exported functions ------------------------------------------------------- */  
+                                     GPIO_Pin_15};  
+/* Private function prototypes -----------------------------------------------*/
+/* Functions -----------------------------------------------------------------*/
+void setPin (Pin* pin)
+{
+    GPIO_SetBits(pin->port, pin->pinNumber);
+}
 
 
+void clearPin (Pin* pin)
+{
+    GPIO_ResetBits(pin->port, pin->pinNumber);
+}
 
-#endif /* __CONFIG_H */
-/******************* AME 2018 *****END OF FILE****/
+PinState readPin (Pin* pin)
+{
+    return (PinState) GPIO_ReadInputDataBit(pin->port, pin->pinNumber);
+}
 
+
+void initPin(Direction direction, uint16_t pin,GPIO_TypeDef* port )
+{
+    GPIO_InitTypeDef pinInitStruct;
+    
+    pinInitStruct.GPIO_OType = GPIO_OType_PP;
+    pinInitStruct.GPIO_PuPd = GPIO_PuPd_UP;
+    pinInitStruct.GPIO_Speed =GPIO_Speed_2MHz;
+    if (direction == INPUT)
+    {
+        pinInitStruct.GPIO_Mode = GPIO_Mode_IN;
+    }
+    else 
+    {
+        pinInitStruct.GPIO_Mode = GPIO_Mode_OUT;
+    }
+    pinInitStruct.GPIO_Pin = pin;
+    GPIO_Init(port, &pinInitStruct);
+    
+    if (direction == OUTPUT)
+    {
+        GPIO_ResetBits(port, pin);;
+    }
+}
+
+void initPinControl(uint8_t number, Pin *pin)
+{
+
+   pin->pinNumber = KEYCONTROLPIN[number];
+   pin->port =  KEYCONTROLPORT[number];
+   initPin(OUTPUT, pin->pinNumber,pin->port );
+}
+
+void initPinFeedback (uint8_t number, Pin *pin)
+{
+    pin->pinNumber = KEYFEEDBACK[number];
+    pin->port = KEYFEEDBACKPORT[number];
+    initPin(INPUT, pin->pinNumber,pin->port );
+}
+/**
+  * @brief  Main program.
+  * @param  None
+  * @retval None
+  */
+
+
+
+
+/******************* AME 2018*****END OF FILE****/

@@ -27,7 +27,7 @@ volatile MessageState incomeMessageState = UNREADY;
   */
 int main (void)
 {
-	uint8_t test[] = "Test interface";
+	//uint8_t test[] = "Test interface";
 	initialization();
 	Application app;
 	while(1)

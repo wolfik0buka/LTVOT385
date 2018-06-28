@@ -40,6 +40,9 @@ typedef struct {
 	Message outputMessage;
 }Protocol;
 /* Exported constants --------------------------------------------------------*/
+#define ILLEGALFUNCTION		0x01
+#define ILLEGALDATAADDRESS	0x02
+#define ILLEFALDATAVALUE	0x03
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */  
 void decodeMessage(Message *inputMessage);
