@@ -56,14 +56,14 @@ void ProcessKeys(KeyApp *keyApp, uint32_t *state)
     //uint32_t state[2];
     for (uint8_t i=0; i < NUMBERKEYS;i++)
     {
-       if ((state [i/16] & (1<<i%16)) == 0)
+       if ((state [i/32] & (1<<i%32)) == 0)
        {
            closeKey(keyApp, i);
        }
     }
     for (uint8_t i=0; i < NUMBERKEYS;i++)
     {
-       if ((state [i/16] & (1<<i%16)) == 1)
+       if ((state [i/32] & (1<<(i%32))) != 0)
        {
            openKey(keyApp, i);
        }
@@ -98,7 +98,20 @@ void closeKey(KeyApp *keyApp, uint8_t number)
     clearPin (&keyApp->keys[number].pinControl);
 }
 
-
+void readKeys(KeyApp *keys)
+{
+    keys->KeysState[0] = 0;
+    keys->KeysState[1] = 0;
+    
+    for (uint8_t i = 0; i < NUMBERKEYS; i++)
+    {
+        keys->keys[i].feedback = readPin (&keys->keys[i].pinFeedback);
+        if (keys->keys[i].feedback == ON)
+        {
+            keys->KeysState[i/32] |= 1<<(i % 32);
+        }
+    }
+}
 
 
 

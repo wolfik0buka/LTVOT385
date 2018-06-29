@@ -47,3 +47,6 @@
 /keyslowlevel.crf
 /keyslowlevel.d
 /keyslowlevel.o
+/sensosr.d
+/sensosr.o
+/sensosr.crf

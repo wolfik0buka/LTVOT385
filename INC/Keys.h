@@ -25,20 +25,22 @@ typedef struct{
 	Pin pinControl;
 	Pin pinFeedback;
 	PinState feedback;
+    PinState programmState;
 }Key;
 
 typedef struct{
 	
 	Key keys[NUMBERKEYS];
+    uint32_t KeysState[2];
 	uint8_t nOpenKeys;
 	uint8_t numbersOpenKeys[NUMBERMAXOPEN];
 }KeyApp;
 /* Exported constants --------------------------------------------------------*/
-
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */  
-
-
+void initializeKeys(KeyApp *keyApp);
+void ProcessKeys(KeyApp *keyApp, uint32_t *state);
+void readKeys(KeyApp *keys);
 
 #endif /* __KEYS_H */
 

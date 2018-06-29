@@ -18,7 +18,6 @@
 #include "config.h"
 
 /* Exported types -----------------------------------------------------------*/
-typedef enum {OFF = 0, ON = !OFF} PinState;
 typedef enum {INPUT = 0, OUTPUT = !INPUT} Direction;
 
 typedef struct{
@@ -35,6 +34,8 @@ PinState readPin (Pin* pin);
 
 void initPinControl(uint8_t number, Pin *pin);
 void initPinFeedback (uint8_t number, Pin *pin);
+
+void initPinSensor(uint8_t number, Pin *pin);
 #endif /* __KEYSLOWLEVEL_H */
 
 

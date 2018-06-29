@@ -53,7 +53,7 @@ const uint16_t KEYCONTROLPIN[MAXKEYS] = { GPIO_Pin_0, GPIO_Pin_1, GPIO_Pin_2,//3
  const uint16_t KEYFEEDBACK[MAXKEYS] =  { GPIO_Pin_0, GPIO_Pin_1, GPIO_Pin_2,//3
                                      GPIO_Pin_3, GPIO_Pin_4, GPIO_Pin_5,   //6
                                      GPIO_Pin_6, GPIO_Pin_7, GPIO_Pin_8,   //9
-                                     GPIO_Pin_9, GPIO_Pin_10, GPIO_Pin_11, //12
+                                     GPIO_Pin_9, GPIO_Pin_7, GPIO_Pin_8, //12
                                      GPIO_Pin_12, GPIO_Pin_13, GPIO_Pin_14,//15
                                      GPIO_Pin_15, GPIO_Pin_0, GPIO_Pin_1,  //18
                                      GPIO_Pin_2, GPIO_Pin_3, GPIO_Pin_4,   //21
@@ -64,6 +64,12 @@ const uint16_t KEYCONTROLPIN[MAXKEYS] = { GPIO_Pin_0, GPIO_Pin_1, GPIO_Pin_2,//3
                                      GPIO_Pin_9, GPIO_Pin_10, GPIO_Pin_11, //36
                                      GPIO_Pin_12, GPIO_Pin_13, GPIO_Pin_14,//39   
                                      GPIO_Pin_15};  
+ 
+const uint16_t SENSORPIN[MAXSENSORS] = {GPIO_Pin_6, GPIO_Pin_7, GPIO_Pin_8, //3
+                                     GPIO_Pin_9, GPIO_Pin_10, GPIO_Pin_11, //6
+                                     GPIO_Pin_12};                           //7
+
+#define SENSORPORT GPIOH
 /* Private function prototypes -----------------------------------------------*/
 /* Functions -----------------------------------------------------------------*/
 void setPin (Pin* pin)
@@ -120,6 +126,13 @@ void initPinFeedback (uint8_t number, Pin *pin)
     pin->pinNumber = KEYFEEDBACK[number];
     pin->port = KEYFEEDBACKPORT[number];
     initPin(INPUT, pin->pinNumber,pin->port );
+}
+
+void initPinSensor(uint8_t number, Pin *pin)
+{
+   pin->pinNumber = SENSORPIN[number];
+   pin->port = SENSORPORT;
+   initPin(INPUT, pin->pinNumber,pin->port );
 }
 /**
   * @brief  Main program.
